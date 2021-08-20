@@ -1,1 +1,1 @@
-﻿<button text='Results' on-click='results-click' anchor-position-y='0' active='~button-active' />
+﻿<action-button id='results-button' text='📰' hover-hint='Results Screen' italics='false' on-click='results-click' anchor-pos-x='50' anchor-pos-y='-4.5' active='~button-active' />

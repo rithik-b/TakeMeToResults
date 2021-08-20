@@ -5,6 +5,7 @@ using IPA.Utilities;
 using System;
 using System.ComponentModel;
 using System.Reflection;
+using UnityEngine;
 using Zenject;
 
 namespace TakeMeToResults.UI.ViewControllers
@@ -23,6 +24,9 @@ namespace TakeMeToResults.UI.ViewControllers
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        [UIComponent("results-button")]
+        private readonly RectTransform resultsButtonTransform;
+
         public ResultsButtonController(HierarchyManager hierarchyManager, ResultsViewController resultsViewController, MainFlowCoordinator mainFlowCoordinator)
         {
             ScreenSystem screenSystem = hierarchyManager.GetField<ScreenSystem, HierarchyManager>("_screenSystem");
@@ -34,6 +38,7 @@ namespace TakeMeToResults.UI.ViewControllers
         public void Initialize()
         {
             BSMLParser.instance.Parse(Utilities.GetResourceContent(Assembly.GetExecutingAssembly(), "TakeMeToResults.UI.Views.ResultsButton.bsml"), titleViewController.gameObject, this);
+            resultsButtonTransform.gameObject.name = "TakeMeToResults";
             resultsViewController.continueButtonPressedEvent += GetViewControllers;
         }
 
