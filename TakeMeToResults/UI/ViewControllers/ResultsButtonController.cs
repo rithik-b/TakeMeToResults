@@ -22,8 +22,10 @@ namespace TakeMeToResults.UI.ViewControllers
         private ViewController bottomScreenViewController;
         private ViewController topScreenViewController;
         private ViewController mainScreenViewController;
+        private FlowCoordinator deepestChildFlowCoordinator;
 
         public event PropertyChangedEventHandler PropertyChanged;
+        private readonly Action ShowOther;
 
         [UIComponent("results-button")]
         private readonly RectTransform resultsButtonTransform;
@@ -34,6 +36,7 @@ namespace TakeMeToResults.UI.ViewControllers
             titleViewController = screenSystem.titleViewController;
             this.resultsViewController = resultsViewController;
             this.mainFlowCoordinator = mainFlowCoordinator;
+            ShowOther = ShowOtherViewControllers;
         }
 
         public void Initialize()
@@ -41,18 +44,18 @@ namespace TakeMeToResults.UI.ViewControllers
             BSMLParser.instance.Parse(Utilities.GetResourceContent(Assembly.GetExecutingAssembly(), "TakeMeToResults.UI.Views.ResultsButton.bsml"), titleViewController.gameObject, this);
             resultsButtonTransform.gameObject.name = "TakeMeToResults";
             resultsViewController.continueButtonPressedEvent += GetViewControllers;
-            FlowCoordinator_PresentFlowCoordinator.FlowCoordinatorChanged += UpdateButtonState;
+            FlowCoordinator_PresentFlowCoordinator.FlowCoordinatorChanged += UpdateFlowAndButtonState;
         }
 
         public void Dispose()
         {
             resultsViewController.continueButtonPressedEvent -= GetViewControllers;
-            FlowCoordinator_PresentFlowCoordinator.FlowCoordinatorChanged -= UpdateButtonState;
+            FlowCoordinator_PresentFlowCoordinator.FlowCoordinatorChanged -= UpdateFlowAndButtonState;
         }
 
         private void GetViewControllers(ResultsViewController resultsViewController)
         {
-            FlowCoordinator deepestChildFlowCoordinator = DeepestChildFlowCoordinator(mainFlowCoordinator);
+            deepestChildFlowCoordinator = DeepestChildFlowCoordinator(mainFlowCoordinator);
 
             leftScreenViewController = deepestChildFlowCoordinator.GetField<ViewController, FlowCoordinator>("_leftScreenViewController");
             rightScreenViewController = deepestChildFlowCoordinator.GetField<ViewController, FlowCoordinator>("_rightScreenViewController");
@@ -60,16 +63,18 @@ namespace TakeMeToResults.UI.ViewControllers
             topScreenViewController = deepestChildFlowCoordinator.GetField<ViewController, FlowCoordinator>("_topScreenViewController");
             mainScreenViewController = deepestChildFlowCoordinator.topViewController;
 
-            UpdateButtonState();
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ButtonActive)));
         }
 
-        private void UpdateButtonState() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ButtonActive)));
+        private void UpdateFlowAndButtonState()
+        {
+            deepestChildFlowCoordinator = DeepestChildFlowCoordinator(mainFlowCoordinator);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ButtonActive)));
+        }
 
         [UIAction("results-click")]
         private void ResultsClick()
         {
-            FlowCoordinator deepestChildFlowCoordinator = DeepestChildFlowCoordinator(mainFlowCoordinator);
-
             if (!(deepestChildFlowCoordinator is SinglePlayerLevelSelectionFlowCoordinator))
             {
                 return;
@@ -77,9 +82,12 @@ namespace TakeMeToResults.UI.ViewControllers
 
             if (mainScreenViewController != null)
             {
-                deepestChildFlowCoordinator.InvokeMethod<object, FlowCoordinator>("PresentViewController", new object[] { mainScreenViewController, null, ViewController.AnimationDirection.Vertical, true });
+                deepestChildFlowCoordinator.InvokeMethod<object, FlowCoordinator>("PresentViewController", new object[] { mainScreenViewController, ShowOther, ViewController.AnimationDirection.Vertical, false });
             }
+        }
 
+        private void ShowOtherViewControllers()
+        {
             if (leftScreenViewController != null)
             {
                 deepestChildFlowCoordinator.InvokeMethod<object, FlowCoordinator>("SetLeftScreenViewController", new object[] { leftScreenViewController, ViewController.AnimationType.In });
@@ -113,6 +121,6 @@ namespace TakeMeToResults.UI.ViewControllers
         }
 
         [UIValue("button-active")]
-        private bool ButtonActive => mainScreenViewController != null && DeepestChildFlowCoordinator(mainFlowCoordinator) is SinglePlayerLevelSelectionFlowCoordinator;
+        private bool ButtonActive => mainScreenViewController != null && deepestChildFlowCoordinator is SinglePlayerLevelSelectionFlowCoordinator;
     }
 }

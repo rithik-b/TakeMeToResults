@@ -2,9 +2,9 @@
   "$schema": "https://raw.githubusercontent.com/bsmg/BSIPA-MetadataFileSchema/master/Schema.json",
   "id": "TakeMeToResults",
   "name": "TakeMeToResults",
-  "author": "",
-  "version": "0.0.1",
-  "description": "",
+  "author": "PixelBoom",
+  "version": "1.0.0",
+  "description": "A simple mod that adds a button which takes you to the results screen.",
   "gameVersion": "1.16.1",
     "dependsOn": {
         "BSIPA": "^4.1.6",
