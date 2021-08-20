@@ -13,4 +13,4 @@ If you encounter any issues with this mod, DM me on Discord PixelBoom#0001 or fi
 ## Contribution
 If you're a developer and would like to contribute to this mod, your contributions are welcome! Just submit a PR and I will take a look at it.
 
-![Demo](https://i.imgur.com/y6ZzUVU.mp4)
+![Demo](https://github.com/rithik-b/TakeMeToResults/blob/master/Images/TakeMeToResults.gif?raw=true)
