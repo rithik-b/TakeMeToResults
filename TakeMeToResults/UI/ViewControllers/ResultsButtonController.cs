@@ -5,6 +5,7 @@ using IPA.Utilities;
 using System;
 using System.ComponentModel;
 using System.Reflection;
+using TakeMeToResults.HarmonyPatches;
 using UnityEngine;
 using Zenject;
 
@@ -40,11 +41,13 @@ namespace TakeMeToResults.UI.ViewControllers
             BSMLParser.instance.Parse(Utilities.GetResourceContent(Assembly.GetExecutingAssembly(), "TakeMeToResults.UI.Views.ResultsButton.bsml"), titleViewController.gameObject, this);
             resultsButtonTransform.gameObject.name = "TakeMeToResults";
             resultsViewController.continueButtonPressedEvent += GetViewControllers;
+            FlowCoordinator_PresentFlowCoordinator.FlowCoordinatorChanged += UpdateButtonState;
         }
 
         public void Dispose()
         {
             resultsViewController.continueButtonPressedEvent -= GetViewControllers;
+            FlowCoordinator_PresentFlowCoordinator.FlowCoordinatorChanged -= UpdateButtonState;
         }
 
         private void GetViewControllers(ResultsViewController resultsViewController)
@@ -57,13 +60,20 @@ namespace TakeMeToResults.UI.ViewControllers
             topScreenViewController = deepestChildFlowCoordinator.GetField<ViewController, FlowCoordinator>("_topScreenViewController");
             mainScreenViewController = deepestChildFlowCoordinator.topViewController;
 
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ButtonActive)));
+            UpdateButtonState();
         }
+
+        private void UpdateButtonState() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ButtonActive)));
 
         [UIAction("results-click")]
         private void ResultsClick()
         {
             FlowCoordinator deepestChildFlowCoordinator = DeepestChildFlowCoordinator(mainFlowCoordinator);
+
+            if (!(deepestChildFlowCoordinator is SinglePlayerLevelSelectionFlowCoordinator))
+            {
+                return;
+            }
 
             if (mainScreenViewController != null)
             {
@@ -103,6 +113,6 @@ namespace TakeMeToResults.UI.ViewControllers
         }
 
         [UIValue("button-active")]
-        private bool ButtonActive => mainScreenViewController != null;
+        private bool ButtonActive => mainScreenViewController != null && DeepestChildFlowCoordinator(mainFlowCoordinator) is SinglePlayerLevelSelectionFlowCoordinator;
     }
 }

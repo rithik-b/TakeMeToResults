@@ -17,10 +17,8 @@ namespace TakeMeToResults
     [Plugin(RuntimeOptions.DynamicInit)]
     public class Plugin
     {
-        // TODO: If using Harmony, uncomment and change YourGitHub to the name of your GitHub account, or use the form "com.company.project.product"
-        //       You must also add a reference to the Harmony assembly in the Libs folder.
-        // public const string HarmonyId = "com.github.YourGitHub.TakeMeToResults";
-        // internal static readonly HarmonyLib.Harmony harmony = new HarmonyLib.Harmony(HarmonyId);
+        public const string HarmonyId = "com.github.rithik-b.TakeMeToResults";
+        internal static readonly HarmonyLib.Harmony harmony = new HarmonyLib.Harmony(HarmonyId);
 
         internal static Plugin Instance { get; private set; }
         internal static IPALogger Log { get; private set; }
@@ -59,7 +57,7 @@ namespace TakeMeToResults
         [OnEnable]
         public void OnEnable()
         {
-            //ApplyHarmonyPatches();
+            ApplyHarmonyPatches();
         }
 
         /// <summary>
@@ -70,7 +68,7 @@ namespace TakeMeToResults
         [OnDisable]
         public void OnDisable()
         {
-            //RemoveHarmonyPatches();
+            RemoveHarmonyPatches();
         }
 
         /*
@@ -89,7 +87,6 @@ namespace TakeMeToResults
 
         // Uncomment the methods in this section if using Harmony
         #region Harmony
-        /*
         /// <summary>
         /// Attempts to apply all the Harmony patches in this assembly.
         /// </summary>
@@ -123,7 +120,6 @@ namespace TakeMeToResults
                 Plugin.Log?.Debug(ex);
             }
         }
-        */
         #endregion
     }
 }
