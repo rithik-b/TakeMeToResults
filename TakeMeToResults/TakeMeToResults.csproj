@@ -26,6 +26,10 @@
 		  <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Beat Saber\Libs\0Harmony.dll</HintPath>
 		  <Private>False</Private>
 		</Reference>
+		<Reference Include="UnityEngine">
+		  <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Beat Saber\Beat Saber_Data\Managed\UnityEngine.dll</HintPath>
+		  <Private>False</Private>
+		</Reference>
 		<Reference Include="UnityEngine.CoreModule">
 			<HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
 			<Private>False</Private>
