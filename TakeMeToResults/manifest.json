@@ -3,7 +3,7 @@
   "id": "TakeMeToResults",
   "name": "TakeMeToResults",
   "author": "PixelBoom",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple mod that adds a button which takes you to the results screen.",
   "gameVersion": "1.16.1",
     "dependsOn": {

@@ -23,7 +23,7 @@
 
 	<ItemGroup>
 		<Reference Include="0Harmony">
-		  <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Beat Saber\Libs\0Harmony.dll</HintPath>
+		  <HintPath>$(BeatSaberDir)\Beat Saber\Libs\0Harmony.dll</HintPath>
 		  <Private>False</Private>
 		</Reference>
 		<Reference Include="UnityEngine.CoreModule">
