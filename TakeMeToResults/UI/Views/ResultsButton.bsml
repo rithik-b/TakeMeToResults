@@ -1,1 +1,1 @@
-﻿<action-button id='results-button' text='📰' hover-hint='Results Screen' italics='false' on-click='results-click' anchor-pos-x='35' anchor-pos-y='5' active='~button-active' />
+﻿<action-button id='results-button' text='📰' hover-hint='Results Screen' italics='false' on-click='results-click' anchor-pos-x='30' anchor-pos-y='-3.5' active='~button-active' />
