@@ -2,7 +2,7 @@
 A simple mod that adds a button which takes you to the results screen.
 
 ## Download
-Download the latest version of the mod (v1.0.0) [here](https://github.com/rithik-b/TakeMeToResults/releases/tag/1.0.0 "here").
+Download the latest version of the mod (v1.0.2) [here](https://github.com/rithik-b/TakeMeToResults/releases/tag/1.0.2 "here").
 To install, move the dll to your Plugins folder.
 
 **BeatSaberMarkupLanguage (BSML)** and **SiraUtil** are required for this mod, so please download the latest version from ModAssistant.
