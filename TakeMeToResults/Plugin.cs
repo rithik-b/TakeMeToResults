@@ -1,15 +1,8 @@
 ﻿using IPA;
-using IPA.Config;
-using IPA.Config.Stores;
 using SiraUtil.Zenject;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
-using TakeMeToResults.Installers;
-using UnityEngine;
+using TakeMeToResults.UI;
 using IPALogger = IPA.Logging.Logger;
 
 namespace TakeMeToResults
@@ -33,7 +26,10 @@ namespace TakeMeToResults
         {
             Instance = this;
             Plugin.Log = logger;
-            zenjector.OnMenu<TakeMeToResultsMenuInstaller>();
+            zenjector.Install(Location.Menu, Container =>
+            {
+                Container.BindInterfacesTo<ResultsButtonController>().AsSingle();
+            });
         }
 
         #region BSIPA Config

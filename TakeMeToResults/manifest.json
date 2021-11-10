@@ -3,12 +3,12 @@
   "id": "TakeMeToResults",
   "name": "TakeMeToResults",
   "author": "PixelBoom",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "A simple mod that adds a button which takes you to the results screen.",
-  "gameVersion": "1.16.1",
+  "gameVersion": "1.18.0",
     "dependsOn": {
-        "BSIPA": "^4.1.6",
-        "BeatSaberMarkupLanguage": "^1.5.3",
-        "SiraUtil": "^2.5.5"
+        "BSIPA": "^4.2.0",
+        "BeatSaberMarkupLanguage": "^1.5.10",
+        "SiraUtil": "^3.0.0"
     }
 }

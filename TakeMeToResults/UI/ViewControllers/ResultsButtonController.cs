@@ -9,7 +9,7 @@ using TakeMeToResults.HarmonyPatches;
 using UnityEngine;
 using Zenject;
 
-namespace TakeMeToResults.UI.ViewControllers
+namespace TakeMeToResults.UI
 {
     internal class ResultsButtonController : IInitializable, IDisposable, INotifyPropertyChanged
     {
