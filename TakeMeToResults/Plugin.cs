@@ -1,7 +1,6 @@
 ﻿using IPA;
 using SiraUtil.Zenject;
-using System;
-using System.Reflection;
+using TakeMeToResults.AffinityPatches;
 using TakeMeToResults.UI;
 using IPALogger = IPA.Logging.Logger;
 
@@ -10,9 +9,6 @@ namespace TakeMeToResults
     [Plugin(RuntimeOptions.DynamicInit)]
     public class Plugin
     {
-        public const string HarmonyId = "com.github.rithik-b.TakeMeToResults";
-        internal static readonly HarmonyLib.Harmony harmony = new HarmonyLib.Harmony(HarmonyId);
-
         internal static Plugin Instance { get; private set; }
         internal static IPALogger Log { get; private set; }
 
@@ -29,6 +25,7 @@ namespace TakeMeToResults
             zenjector.Install(Location.Menu, Container =>
             {
                 Container.BindInterfacesTo<ResultsButtonController>().AsSingle();
+                Container.BindInterfacesAndSelfTo<PresentFlowCoordinatorPatch>().AsSingle();
             });
         }
 
@@ -53,7 +50,6 @@ namespace TakeMeToResults
         [OnEnable]
         public void OnEnable()
         {
-            ApplyHarmonyPatches();
         }
 
         /// <summary>
@@ -64,7 +60,6 @@ namespace TakeMeToResults
         [OnDisable]
         public void OnDisable()
         {
-            RemoveHarmonyPatches();
         }
 
         /*
@@ -79,43 +74,6 @@ namespace TakeMeToResults
             await LongRunningUnloadTask().ConfigureAwait(false);
         }
         */
-        #endregion
-
-        // Uncomment the methods in this section if using Harmony
-        #region Harmony
-        /// <summary>
-        /// Attempts to apply all the Harmony patches in this assembly.
-        /// </summary>
-        internal static void ApplyHarmonyPatches()
-        {
-            try
-            {
-                Plugin.Log?.Debug("Applying Harmony patches.");
-                harmony.PatchAll(Assembly.GetExecutingAssembly());
-            }
-            catch (Exception ex)
-            {
-                Plugin.Log?.Error("Error applying Harmony patches: " + ex.Message);
-                Plugin.Log?.Debug(ex);
-            }
-        }
-
-        /// <summary>
-        /// Attempts to remove all the Harmony patches that used our HarmonyId.
-        /// </summary>
-        internal static void RemoveHarmonyPatches()
-        {
-            try
-            {
-                // Removes all patches with this HarmonyId
-                harmony.UnpatchAll(HarmonyId);
-            }
-            catch (Exception ex)
-            {
-                Plugin.Log?.Error("Error removing Harmony patches: " + ex.Message);
-                Plugin.Log?.Debug(ex);
-            }
-        }
         #endregion
     }
 }

@@ -5,7 +5,7 @@ using IPA.Utilities;
 using System;
 using System.ComponentModel;
 using System.Reflection;
-using TakeMeToResults.HarmonyPatches;
+using TakeMeToResults.AffinityPatches;
 using UnityEngine;
 using Zenject;
 
@@ -16,6 +16,7 @@ namespace TakeMeToResults.UI
         private readonly TitleViewController titleViewController;
         private readonly ResultsViewController resultsViewController;
         private readonly MainFlowCoordinator mainFlowCoordinator;
+        private readonly PresentFlowCoordinatorPatch presentFlowCoordinatorPatch;
 
         private ViewController leftScreenViewController;
         private ViewController rightScreenViewController;
@@ -30,12 +31,14 @@ namespace TakeMeToResults.UI
         [UIComponent("results-button")]
         private readonly RectTransform resultsButtonTransform;
 
-        public ResultsButtonController(HierarchyManager hierarchyManager, ResultsViewController resultsViewController, MainFlowCoordinator mainFlowCoordinator)
+        public ResultsButtonController(HierarchyManager hierarchyManager, ResultsViewController resultsViewController, MainFlowCoordinator mainFlowCoordinator,
+            PresentFlowCoordinatorPatch presentFlowCoordinatorPatch)
         {
             ScreenSystem screenSystem = hierarchyManager.GetField<ScreenSystem, HierarchyManager>("_screenSystem");
             titleViewController = screenSystem.titleViewController;
             this.resultsViewController = resultsViewController;
             this.mainFlowCoordinator = mainFlowCoordinator;
+            this.presentFlowCoordinatorPatch = presentFlowCoordinatorPatch;
             ShowOther = ShowOtherViewControllers;
         }
 
@@ -44,13 +47,13 @@ namespace TakeMeToResults.UI
             BSMLParser.instance.Parse(Utilities.GetResourceContent(Assembly.GetExecutingAssembly(), "TakeMeToResults.UI.Views.ResultsButton.bsml"), titleViewController.gameObject, this);
             resultsButtonTransform.gameObject.name = "TakeMeToResults";
             resultsViewController.continueButtonPressedEvent += GetViewControllers;
-            FlowCoordinator_PresentFlowCoordinator.FlowCoordinatorChanged += UpdateFlowAndButtonState;
+            presentFlowCoordinatorPatch.FlowCoordinatorChanged += UpdateFlowAndButtonState;
         }
 
         public void Dispose()
         {
             resultsViewController.continueButtonPressedEvent -= GetViewControllers;
-            FlowCoordinator_PresentFlowCoordinator.FlowCoordinatorChanged -= UpdateFlowAndButtonState;
+            presentFlowCoordinatorPatch.FlowCoordinatorChanged -= UpdateFlowAndButtonState;
         }
 
         private void GetViewControllers(ResultsViewController resultsViewController)
