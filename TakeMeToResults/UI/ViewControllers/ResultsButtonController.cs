@@ -58,7 +58,7 @@ namespace TakeMeToResults.UI
 
         private void GetViewControllers(ResultsViewController resultsViewController)
         {
-            deepestChildFlowCoordinator = DeepestChildFlowCoordinator(mainFlowCoordinator);
+            deepestChildFlowCoordinator = mainFlowCoordinator.YoungestChildFlowCoordinatorOrSelf();
 
             leftScreenViewController = deepestChildFlowCoordinator.GetField<ViewController, FlowCoordinator>("_leftScreenViewController");
             rightScreenViewController = deepestChildFlowCoordinator.GetField<ViewController, FlowCoordinator>("_rightScreenViewController");
@@ -71,7 +71,7 @@ namespace TakeMeToResults.UI
 
         private void UpdateFlowAndButtonState()
         {
-            deepestChildFlowCoordinator = DeepestChildFlowCoordinator(mainFlowCoordinator);
+            deepestChildFlowCoordinator = mainFlowCoordinator.YoungestChildFlowCoordinatorOrSelf();
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ButtonActive)));
         }
 
@@ -110,17 +110,6 @@ namespace TakeMeToResults.UI
             {
                 deepestChildFlowCoordinator.InvokeMethod<object, FlowCoordinator>("SetTopScreenViewController", new object[] { topScreenViewController, ViewController.AnimationType.In });
             }
-        }
-
-        private FlowCoordinator DeepestChildFlowCoordinator(FlowCoordinator root)
-        {
-            var flow = root.childFlowCoordinator;
-            if (flow == null) return root;
-            if (flow.childFlowCoordinator == null || flow.childFlowCoordinator == flow)
-            {
-                return flow;
-            }
-            return DeepestChildFlowCoordinator(flow);
         }
 
         [UIValue("button-active")]
