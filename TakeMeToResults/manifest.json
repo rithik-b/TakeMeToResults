@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "https://raw.githubusercontent.com/bsmg/BSIPA-MetadataFileSchema/master/Schema.json",
   "id": "TakeMeToResults",
   "name": "TakeMeToResults",
@@ -10,5 +10,9 @@
         "BSIPA": "^4.2.1",
         "BeatSaberMarkupLanguage": "^1.6.0",
         "SiraUtil": "^3.0.0"
-    }
+    },
+    "links": {
+      "project-source": "https://github.com/rithik-b/TakeMeToResults",
+      "donate": "https://ko-fi.com/pixelboom"
+  }
 }
